@@ -14,6 +14,11 @@ Emerald Estimator is an open-source JavaScript library for estimating energy bil
 
 ## Installation
 
+### Prerequisites
+- Node.js version 18 or higher. You can download it [here](https://nodejs.org/).
+
+### Installing Emerald Estimator
+
 ```bash
 npm install emerald-estimator
 ```
