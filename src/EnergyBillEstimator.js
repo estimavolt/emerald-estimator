@@ -3,7 +3,15 @@ import yaml from 'js-yaml';
 import providerDataDefault from '../data/provider_pricing.yaml';
 import ESBDateUtils from './ESBDateUtils';
 
+/**
+* EnergyBillEstimator is a class designed to estimate energy bills based on consumption data
+* and energy pricing information provided by various providers.
+*/
 class EnergyBillEstimator {
+    /**
+    * Constructs an instance of the EnergyBillEstimator class.
+    * @param {string} providerDataContent - YAML content containing energy pricing information from providers. Defaults to a preloaded dataset.
+    */
     constructor(providerDataContent = providerDataDefault) {
         const parsedData = yaml.load(providerDataContent);
 
@@ -12,10 +20,20 @@ class EnergyBillEstimator {
         this.consumptionData = null;
     }
 
+    /**
+     * Factory method to create a new instance of EnergyBillEstimator.
+     * @param {string} providerDataContent - YAML content for provider data.
+     * @returns {EnergyBillEstimator} An instance of the EnergyBillEstimator.
+     */
     static create(providerDataContent) {
         return new EnergyBillEstimator(providerDataContent);
     }
 
+    /**
+     * Processes and attaches energy consumption data to the instance.
+     * @param {string} fileContent - CSV content containing energy consumption data.
+     * @returns {EnergyBillEstimator} The instance with updated consumption data.
+     */
     withConsumption(fileContent) {
         const results = Papa.parse(fileContent, { header: true });
         
@@ -31,6 +49,11 @@ class EnergyBillEstimator {
         return this;
     }
 
+    /**
+     * Estimates the energy bill based on the attached consumption data.
+     * @throws Will throw an error if consumption data is not set.
+     * @returns {Object} The estimated bill information.
+     */
     estimate() {
         if (!this.importData) {
             throw new Error("Consumption data not set. Use `withConsumption` before calling `estimate`.");
@@ -38,6 +61,11 @@ class EnergyBillEstimator {
         return this.estimateBillFromData(this.importData, this.exportData);
     }
 
+    /**
+     * Loads and returns standing charges for each provider from the given data.
+     * @param {Array} providers - Array of provider data.
+     * @returns {Object} Object containing standing charges keyed by provider names.
+     */
     loadStandingCharges(providers) {
         const standingCharges = {};
         providers.forEach(provider => {
@@ -46,6 +74,11 @@ class EnergyBillEstimator {
         return standingCharges;
     }
 
+    /**
+     * Loads and returns pricing data for each provider from the given data.
+     * @param {Array} providers - Array of provider data.
+     * @returns {Object} Object containing pricing data keyed by provider names.
+     */
     loadPricingData(providers) {
         const pricingData = {};
         providers.forEach(provider => {
@@ -57,6 +90,13 @@ class EnergyBillEstimator {
         return pricingData;
     }
 
+    /**
+     * Retrieves the price per kWh for a given timestamp and provider.
+     * @param {string} provider - The name of the energy provider.
+     * @param {string} timestamp - The timestamp to check pricing for.
+     * @param {string} [type='import'] - Type of energy (import/export).
+     * @returns {number|null} The price per kWh or null if not found.
+     */
     getPriceForTimestamp(provider, timestamp, type = 'import') {
         //const time = moment(timestamp, "DD-MM-YYYY HH:mm").format("HH:mm");
         // not using moment here gives a boost of 10x in execution time
@@ -78,6 +118,13 @@ class EnergyBillEstimator {
         return null;
     }
 
+    /**
+     * Retrieves the price per kWh for a given timestamp and provider.
+     * @param {string} provider - The name of the energy provider.
+     * @param {string} timestamp - The timestamp to check pricing for.
+     * @param {string} [type='import'] - Type of energy (import/export).
+     * @returns {number|null} The price per kWh or null if not found.
+     */
     calculateExportReduction(exportData, provider) {
         let reduction = 0;
         for (const [timestamp, exportValue] of exportData) {
@@ -87,6 +134,13 @@ class EnergyBillEstimator {
         return reduction;
     }
 
+    /**
+     * Interpolates and fills missing data points in the given range of dates.
+     * @param {Map} readingsMap - Map of readings with timestamps as keys.
+     * @param {Date} oldestDate - The oldest date in the range.
+     * @param {Date} latestDate - The latest date in the range.
+     * @returns {Array} An array of interpolated data.
+     */
     interpolateData(readingsMap, oldestDate, latestDate) {
          // Generate all possible timestamps in the range at 30-minute intervals
          const allTimestamps = [];
@@ -127,6 +181,13 @@ class EnergyBillEstimator {
          return interpolatedData;
     }
 
+    /**
+     * Estimates the bill based on provided import and export data.
+     * @param {Array} importData - Data for energy import.
+     * @param {Array} exportData - Data for energy export.
+     * @param {boolean} interpolate - Whether to interpolate missing data.
+     * @returns {Object} Estimated bill information.
+     */
     estimateBillFromData(importData, exportData, interpolate = true) {  
         //Assuming that first row is most recent (latest), last of least recent (oldest)
         let latestDate = ESBDateUtils.parseDate(importData[0][0]);
