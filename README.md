@@ -14,24 +14,42 @@ Emerald Estimator is an open-source JavaScript library for estimating energy bil
 
 ## Installation
 
-### Prerequisites
-- Node.js version 18 or higher. You can download it [here](https://nodejs.org/).
+### Installing Emerald Estimator in Node.js
 
-### Installing Emerald Estimator
+For Node.js environments:
 
 ```bash
 npm install emerald-estimator
 ```
 
+Prerequesites: Node.js version 18 or higher.
+
+### Installing in browser environments
+
+Include the following script tag in your HTML file to use Emerald Estimator directly in the browser from the unpkg CDN. This will make EmeraldEstimator available globally.
+
+```html
+<script src="https://unpkg.com/emerald-estimator@latest/dist/emerald-estimator.min.js"></script>
+```
 
 ## Usage
 
-### Initialization
+### Initialization in Node.js
 
 ```javascript
 import { EnergyBillEstimator } from 'emerald-estimator';
 
 const estimator = EnergyBillEstimator.create();
+```
+
+### Initialization in Browser
+
+In the browser, you don't need to import the module as it's included globally via the script tag.
+
+```html
+<script>
+    const estimator = EmeraldEstimator.create();
+</script>
 ```
 
 ### Loading Consumption Data
