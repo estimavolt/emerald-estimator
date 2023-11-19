@@ -1,9 +1,6 @@
 import Papa from 'papaparse';
-import moment from 'moment';
 import yaml from 'js-yaml';
 import providerDataDefault from '../data/provider_pricing.yaml';
-
-const dateFormat = "DD-MM-YYYY HH:mm";
 
 class EnergyBillEstimator {
     constructor(providerDataContent = providerDataDefault) {
@@ -92,10 +89,10 @@ class EnergyBillEstimator {
     interpolateData(readingsMap, oldestDate, latestDate) {
          // Generate all possible timestamps in the range at 30-minute intervals
          const allTimestamps = [];
-         let currentDate = oldestDate.clone();
+         let currentDate = new Date(oldestDate.getTime());
          while (currentDate <= latestDate) {
-             allTimestamps.push(currentDate.format(dateFormat));
-             currentDate.add(30, 'minutes');
+             allTimestamps.push(this.formatDate(currentDate));
+             currentDate.setTime(currentDate.getTime() + (30 * 60000));
          }
 
          // Fill each 30-minute slot...
@@ -106,10 +103,13 @@ class EnergyBillEstimator {
                  // Find the same timeslot over the past 14 and next 14 days
                  const sameTimeSlotReadings = [];
                  for (let dayOffset = -14; dayOffset <= 14; dayOffset++) {
-                     const dayOffsetTimestamp = moment(timestamp, dateFormat).add(dayOffset, 'days').format(dateFormat);
-                     if (readingsMap.has(dayOffsetTimestamp)) {
+                    const date = this.parseDate(timestamp);
+                    date.setDate(date.getDate() + dayOffset);
+                    const dayOffsetTimestamp = this.formatDate(date);
+                    //const dayOffsetTimestamp = moment(timestamp, dateFormat).add(dayOffset, 'days').format(dateFormat);
+                    if (readingsMap.has(dayOffsetTimestamp)) {
                          sameTimeSlotReadings.push(readingsMap.get(dayOffsetTimestamp));
-                     }
+                    }
                  }
      
                  // Calculate the average if there are any readings for the same timeslot
@@ -128,10 +128,10 @@ class EnergyBillEstimator {
 
     estimateBillFromData(importData, exportData, interpolate = true) {  
         //Assuming that first row is most recent (latest), last of least recent (oldest)
-        const latestDate = moment(importData[0][0], dateFormat);
-        const oldestDate = moment(importData[importData.length-1][0], dateFormat);
+        let latestDate = this.parseDate(importData[0][0]);
+        let oldestDate = this.parseDate(importData[importData.length - 1][0]);
 
-        if (!oldestDate.isSameOrBefore(latestDate)) {
+        if (oldestDate > latestDate) {
             throw new Error("ESB dataset contains unexpected date ordering.");
         }
 
@@ -142,9 +142,9 @@ class EnergyBillEstimator {
         let interpolatedData = interpolate ? this.interpolateData(readingsMap, oldestDate, latestDate) : readingsMap;        
 
         // Considering that oldestData is the end of the 30 minutes interval
-        oldestDate.subtract(30, "minutes");
+        oldestDate = new Date(oldestDate.getTime() - 30 * 60000); // Subtracting 30 minutes
         
-        const numberOfDays = latestDate.diff(oldestDate, 'days', true);
+        const numberOfDays = (latestDate - oldestDate) / (1000 * 60 * 60 * 24);
         const ratio = 365 / numberOfDays;
 
         const bills = {};
@@ -157,11 +157,11 @@ class EnergyBillEstimator {
         for (const [timestamp, readValue] of interpolatedData) {
             // Adjust timestamp to represent the beginning of the 30-minute interval
             // ESB timestamps are the end of the period - eg: 16:00 is the consumption from 15:30 to 16:00
-            let adjustedTimestamp = moment(timestamp, "DD-MM-YYYY HH:mm").subtract(30, "minutes");
+            let adjustedTimestamp = new Date(this.parseDate(timestamp).getTime() - 30 * 60000);
 
             totalConsumption += readValue / 2;
 
-            let timeslot = adjustedTimestamp.format('HH:mm');
+            let timeslot = this.formatTime(adjustedTimestamp);
             consumptionPerTimeslot[timeslot] = (consumptionPerTimeslot[timeslot] || 0) + readValue / 2;
         }
 
@@ -253,6 +253,31 @@ class EnergyBillEstimator {
         }
 
         return timePeriods;
+    }
+
+    formatDate(date) {
+        const day = `0${date.getDate()}`.slice(-2);
+        const month = `0${date.getMonth() + 1}`.slice(-2);
+        const year = date.getFullYear();
+        const hour = `0${date.getHours()}`.slice(-2);
+        const minute = `0${date.getMinutes()}`.slice(-2);
+    
+        return `${day}-${month}-${year} ${hour}:${minute}`;
+    }
+
+    formatTime(date) {
+        const hour = `0${date.getHours()}`.slice(-2);
+        const minute = `0${date.getMinutes()}`.slice(-2);
+    
+        return `${hour}:${minute}`;
+    }
+    
+    parseDate(dateString) {
+        const [date, time] = dateString.split(' ');
+        const [dd, mm, yyyy] = date.split('-').map(Number);
+        const [hours, minutes] = time.split(':').map(Number);
+    
+        return new Date(yyyy, mm - 1, dd, hours, minutes);
     }
 }
 

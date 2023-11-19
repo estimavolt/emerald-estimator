@@ -122,7 +122,6 @@ The library is exposed as `EmeraldEstimator` and is compatible with UMD (Univers
 ## Dependencies
 
 - `js-yaml`
-- `moment`
 - `papaparse`
 
 ## Contributing
