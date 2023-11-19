@@ -11,7 +11,7 @@ module.exports = {
     globalObject: 'this',
     umdNamedDefine: true
   },  
-  mode: "production",
+  mode: "development",
   module: {
     rules: [
       {
