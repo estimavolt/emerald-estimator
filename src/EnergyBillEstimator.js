@@ -1,6 +1,7 @@
 import Papa from 'papaparse';
 import yaml from 'js-yaml';
 import providerDataDefault from '../data/provider_pricing.yaml';
+import ESBDateUtils from './ESBDateUtils';
 
 class EnergyBillEstimator {
     constructor(providerDataContent = providerDataDefault) {
@@ -91,7 +92,7 @@ class EnergyBillEstimator {
          const allTimestamps = [];
          let currentDate = new Date(oldestDate.getTime());
          while (currentDate <= latestDate) {
-             allTimestamps.push(this.formatDate(currentDate));
+             allTimestamps.push(ESBDateUtils.formatDate(currentDate));
              currentDate.setTime(currentDate.getTime() + (30 * 60000));
          }
 
@@ -103,9 +104,9 @@ class EnergyBillEstimator {
                  // Find the same timeslot over the past 14 and next 14 days
                  const sameTimeSlotReadings = [];
                  for (let dayOffset = -14; dayOffset <= 14; dayOffset++) {
-                    const date = this.parseDate(timestamp);
+                    const date = ESBDateUtils.parseDate(timestamp);
                     date.setDate(date.getDate() + dayOffset);
-                    const dayOffsetTimestamp = this.formatDate(date);
+                    const dayOffsetTimestamp = ESBDateUtils.formatDate(date);
                     //const dayOffsetTimestamp = moment(timestamp, dateFormat).add(dayOffset, 'days').format(dateFormat);
                     if (readingsMap.has(dayOffsetTimestamp)) {
                          sameTimeSlotReadings.push(readingsMap.get(dayOffsetTimestamp));
@@ -128,8 +129,8 @@ class EnergyBillEstimator {
 
     estimateBillFromData(importData, exportData, interpolate = true) {  
         //Assuming that first row is most recent (latest), last of least recent (oldest)
-        let latestDate = this.parseDate(importData[0][0]);
-        let oldestDate = this.parseDate(importData[importData.length - 1][0]);
+        let latestDate = ESBDateUtils.parseDate(importData[0][0]);
+        let oldestDate = ESBDateUtils.parseDate(importData[importData.length - 1][0]);
 
         if (oldestDate > latestDate) {
             throw new Error("ESB dataset contains unexpected date ordering.");
@@ -157,11 +158,11 @@ class EnergyBillEstimator {
         for (const [timestamp, readValue] of interpolatedData) {
             // Adjust timestamp to represent the beginning of the 30-minute interval
             // ESB timestamps are the end of the period - eg: 16:00 is the consumption from 15:30 to 16:00
-            let adjustedTimestamp = new Date(this.parseDate(timestamp).getTime() - 30 * 60000);
+            let adjustedTimestamp = new Date(ESBDateUtils.parseDate(timestamp).getTime() - 30 * 60000);
 
             totalConsumption += readValue / 2;
 
-            let timeslot = this.formatTime(adjustedTimestamp);
+            let timeslot = ESBDateUtils.formatTime(adjustedTimestamp);
             consumptionPerTimeslot[timeslot] = (consumptionPerTimeslot[timeslot] || 0) + readValue / 2;
         }
 
@@ -253,31 +254,6 @@ class EnergyBillEstimator {
         }
 
         return timePeriods;
-    }
-
-    formatDate(date) {
-        const day = `0${date.getDate()}`.slice(-2);
-        const month = `0${date.getMonth() + 1}`.slice(-2);
-        const year = date.getFullYear();
-        const hour = `0${date.getHours()}`.slice(-2);
-        const minute = `0${date.getMinutes()}`.slice(-2);
-    
-        return `${day}-${month}-${year} ${hour}:${minute}`;
-    }
-
-    formatTime(date) {
-        const hour = `0${date.getHours()}`.slice(-2);
-        const minute = `0${date.getMinutes()}`.slice(-2);
-    
-        return `${hour}:${minute}`;
-    }
-    
-    parseDate(dateString) {
-        const [date, time] = dateString.split(' ');
-        const [dd, mm, yyyy] = date.split('-').map(Number);
-        const [hours, minutes] = time.split(':').map(Number);
-    
-        return new Date(yyyy, mm - 1, dd, hours, minutes);
     }
 }
 
