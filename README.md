@@ -29,7 +29,7 @@ Prerequesites: Node.js version 18 or higher.
 Include the following script tag in your HTML file to use Emerald Estimator directly in the browser from the unpkg CDN. This will make EmeraldEstimator available globally.
 
 ```html
-<script src="https://unpkg.com/emerald-estimator@latest/dist/emerald-estimator.min.js"></script>
+<script src="https://unpkg.com/emerald-estimator@latest"></script>
 ```
 
 Note: Replace @latest in the URL with the specific version number if you want to use a particular version of the emerald-estimator library. The @latest tag will always pull the most recent version.
