@@ -1,7 +1,7 @@
 {
     "name": "emerald-estimator",
     "version": "1.0.0",
-    "description": "A library for reading from ESB networks and estimating bills for the Republic of Ireland market.",
+    "description": "A library for estimating bills from smart meter data in Ireland.",
     "main": "dist/EmeraldEstimator.bundle.js",
     "scripts": {
         "build": "NODE_OPTIONS=--openssl-legacy-provider webpack",
@@ -17,7 +17,7 @@
         "jest-environment-jsdom": "^29.7.0",
         "moment-locales-webpack-plugin": "^1.2.0",
         "raw-loader": "^4.0.2",
-        "webpack": "^4.44.2",
+        "webpack": "^5.89.0",
         "webpack-cli": "^4.10.0"
     },
     "keywords": [
