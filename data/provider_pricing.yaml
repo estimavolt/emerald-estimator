@@ -72,6 +72,34 @@ providers:
           - start_time: 00:00
             end_time: 24:00
             price_per_kwh: 0.185
+  - name: Bord Gáis Energy Electric Vehicle (Black Friday)
+    pricings:
+      - start_date: 2023-01-01
+        end_date: null
+        standing_charge: 353.85
+        import_rates:
+          - start_time: 08:00
+            end_time: 17:00
+            price_per_kwh: 0.3044
+          - start_time: 19:00
+            end_time: 23:00
+            price_per_kwh: 0.3044
+          - start_time: 17:00
+            end_time: 19:00
+            price_per_kwh: 0.4244
+          - start_time: 23:00
+            end_time: 02:00
+            price_per_kwh: 0.2296
+          - start_time: 05:00
+            end_time: 08:00
+            price_per_kwh: 0.2296
+          - start_time: 02:00
+            end_time: 05:00
+            price_per_kwh: 0.0776
+        export_rates:
+          - start_time: 00:00
+            end_time: 24:00
+            price_per_kwh: 0.185
   - name: Yuno Energy Variable Rate
     pricings:
       - start_date: 2023-01-01
