@@ -22,57 +22,58 @@ providers:
             end_time: 24:00
             price_per_kwh: 0.21
         source: https://www.electricireland.ie/switch/new-customer/price-plans?priceType=E
-  - name: Energia Smart Data
+  - name: Home Electric + Saver 14%
     pricings:
       - start_date: 2023-01-01
         end_date: null
-        standing_charge: 236.62
+        standing_charge: 272.61
         import_rates:
-          - start_time: 08:00
-            end_time: 17:00
-            price_per_kwh: 0.366
-          - start_time: 17:00
-            end_time: 19:00
-            price_per_kwh: 0.3836
-          - start_time: 19:00
-            end_time: 23:00
-            price_per_kwh: 0.366
-          - start_time: 23:00
-            end_time: 08:00
-            price_per_kwh: 0.1960
+          - start_time: 00:00
+            end_time: 24:00
+            price_per_kwh: 0.3349
         export_rates:
           - start_time: 00:00
             end_time: 24:00
-            price_per_kwh: 0.24
+            price_per_kwh: 0.21
+        source: https://www.electricireland.ie/switch/new-customer/price-plans?priceType=E
+  - name: Electric Ireland Home Electric+ 24hour
+    pricings:
+      - start_date: 2023-01-01
+        end_date: null
+        standing_charge: 272.61
+        import_rates:
+          - start_time: 00:00
+            end_time: 24:00
+            price_per_kwh: 0.3680
+        export_rates:
+          - start_time: 00:00
+            end_time: 24:00
+            price_per_kwh: 0.21
+        source: https://www.electricireland.ie/switch/new-customer/price-plans?priceType=E
+  - name: Electric Ireland Home Electric+ SST
+    pricings:
+      - start_date: 2023-01-01
+        end_date: null
+        standing_charge: 272.61
+        import_rates:
+          - start_time: 08:00
+            end_time: 17:00
+            price_per_kwh: 0.4005
+          - start_time: 19:00
+            end_time: 23:00
+            price_per_kwh: 0.4005
+          - start_time: 17:00
+            end_time: 19:00
+            price_per_kwh: 0.4272
+          - start_time: 23:00
+            end_time: 08:00
+            price_per_kwh: 0.2104
+        export_rates:
+          - start_time: 00:00
+            end_time: 24:00
+            price_per_kwh: 0.21
+        source: https://www.electricireland.ie/switch/new-customer/price-plans?priceType=E
   - name: Bord Gáis Energy Electric Vehicle 
-    pricings:
-      - start_date: 2023-01-01
-        end_date: null
-        standing_charge: 418.78
-        import_rates:
-          - start_time: 08:00
-            end_time: 17:00
-            price_per_kwh: 0.3246
-          - start_time: 19:00
-            end_time: 23:00
-            price_per_kwh: 0.3246
-          - start_time: 17:00
-            end_time: 19:00
-            price_per_kwh: 0.4528
-          - start_time: 23:00
-            end_time: 02:00
-            price_per_kwh: 0.2448
-          - start_time: 05:00
-            end_time: 08:00
-            price_per_kwh: 0.2448
-          - start_time: 02:00
-            end_time: 05:00
-            price_per_kwh: 0.0827
-        export_rates:
-          - start_time: 00:00
-            end_time: 24:00
-            price_per_kwh: 0.185
-  - name: Bord Gáis Energy Electric Vehicle (Black Friday)
     pricings:
       - start_date: 2023-01-01
         end_date: null
@@ -80,26 +81,76 @@ providers:
         import_rates:
           - start_time: 08:00
             end_time: 17:00
-            price_per_kwh: 0.3044
+            price_per_kwh: 0.3246
           - start_time: 19:00
             end_time: 23:00
-            price_per_kwh: 0.3044
+            price_per_kwh: 0.3246
           - start_time: 17:00
             end_time: 19:00
-            price_per_kwh: 0.4244
+            price_per_kwh: 0.4527
           - start_time: 23:00
             end_time: 02:00
-            price_per_kwh: 0.2296
+            price_per_kwh: 0.2448
           - start_time: 05:00
             end_time: 08:00
-            price_per_kwh: 0.2296
+            price_per_kwh: 0.2449
           - start_time: 02:00
             end_time: 05:00
-            price_per_kwh: 0.0776
+            price_per_kwh: 0.0828
         export_rates:
           - start_time: 00:00
             end_time: 24:00
-            price_per_kwh: 0.185
+            price_per_kwh: 0.185 
+  - name: Bord Gáis Green EV Smart Electricity 
+    pricings:
+      - start_date: 2023-01-01
+        end_date: null
+        standing_charge: 353.85
+        import_rates:
+          - start_time: 08:00
+            end_time: 17:00
+            price_per_kwh: 0.3328
+          - start_time: 19:00
+            end_time: 23:00
+            price_per_kwh: 0.3328
+          - start_time: 17:00
+            end_time: 19:00
+            price_per_kwh: 0.4641
+          - start_time: 23:00
+            end_time: 02:00
+            price_per_kwh: 0.2510
+          - start_time: 05:00
+            end_time: 08:00
+            price_per_kwh: 0.2510
+          - start_time: 02:00
+            end_time: 05:00
+            price_per_kwh: 0.0848
+        export_rates:
+          - start_time: 00:00
+            end_time: 24:00
+            price_per_kwh: 0.185 
+  - name: Bord Gáis Standard Smart Electricity
+    pricings:
+      - start_date: 2023-01-01
+        end_date: null
+        standing_charge: 237.56
+        import_rates:
+          - start_time: 08:00
+            end_time: 17:00
+            price_per_kwh: 0.3481
+          - start_time: 19:00
+            end_time: 23:00
+            price_per_kwh: 0.3481
+          - start_time: 17:00
+            end_time: 19:00
+            price_per_kwh: 0.4238
+          - start_time: 23:00
+            end_time: 08:00
+            price_per_kwh: 0.2570
+        export_rates:
+          - start_time: 00:00
+            end_time: 24:00
+            price_per_kwh: 0.185 
   - name: Yuno Energy Variable Rate
     pricings:
       - start_date: 2023-01-01
@@ -143,85 +194,10 @@ providers:
         import_rates:
           - start_time: 08:00
             end_time: 17:00
-            price_per_kwh: 0.4830
+            price_per_kwh: 0.4250
           - start_time: 19:00
             end_time: 23:00
-            price_per_kwh: 0.4830
-          - start_time: 17:00
-            end_time: 19:00
-            price_per_kwh: 0.6492
-          - start_time: 23:00
-            end_time: 02:00
-            price_per_kwh: 0.2735
-          - start_time: 05:00
-            end_time: 08:00
-            price_per_kwh: 0.2735
-          - start_time: 02:00
-            end_time: 05:00
-            price_per_kwh: 0.1055
-        export_rates:
-          - start_time: 00:00
-            end_time: 24:00
-            price_per_kwh: 0.24
-  - name: SSE Airtricity Smart Day-Night Peak
-    pricings:
-      - start_date: 2023-01-01
-        end_date: null
-        standing_charge: 240.97
-        import_rates:
-          - start_time: 08:00
-            end_time: 17:00
-            price_per_kwh: 0.4029
-          - start_time: 19:00
-            end_time: 23:00
-            price_per_kwh: 0.4029
-          - start_time: 23:00
-            end_time: 05:00
-            price_per_kwh: 0.2614
-          - start_time: 05:00
-            end_time: 08:00
-            price_per_kwh: 0.2614
-          - start_time: 17:00
-            end_time: 19:00
-            price_per_kwh: 0.5090
-        export_rates:
-          - start_time: 00:00
-            end_time: 24:00
-            price_per_kwh: 0.24
-  - name: Flogas Smart Standard Rate November
-    pricings:
-      - start_date: 2023-01-01
-        end_date: null
-        standing_charge: 237.22
-        import_rates:
-          - start_time: 08:00
-            end_time: 17:00
-            price_per_kwh: 0.3753
-          - start_time: 19:00
-            end_time: 23:00
-            price_per_kwh: 0.3753
-          - start_time: 17:00
-            end_time: 19:00
-            price_per_kwh: 0.4439
-          - start_time: 23:00
-            end_time: 08:00
-            price_per_kwh: 0.2925
-        export_rates:
-          - start_time: 00:00
-            end_time: 24:00
-            price_per_kwh: 0.22
-  - name: SSE Airtricity Smart Night Boost November
-    pricings:
-      - start_date: 2023-01-01
-        end_date: null
-        standing_charge: 305.72
-        import_rates:
-          - start_time: 08:00
-            end_time: 17:00
-            price_per_kwh: 0.4248
-          - start_time: 19:00
-            end_time: 23:00
-            price_per_kwh: 0.4248
+            price_per_kwh: 0.4250
           - start_time: 17:00
             end_time: 19:00
             price_per_kwh: 0.5713
@@ -238,7 +214,29 @@ providers:
           - start_time: 00:00
             end_time: 24:00
             price_per_kwh: 0.24
-  - name: Flogas Smart Standard Rate November
+  - name: SSE Airtricity Smart Day-Night Peak
+    pricings:
+      - start_date: 2023-01-01
+        end_date: null
+        standing_charge: 240.97
+        import_rates:
+          - start_time: 08:00
+            end_time: 17:00
+            price_per_kwh: 0.3546
+          - start_time: 19:00
+            end_time: 23:00
+            price_per_kwh: 0.3546
+          - start_time: 23:00
+            end_time: 08:00
+            price_per_kwh: 0.2300
+          - start_time: 17:00
+            end_time: 19:00
+            price_per_kwh: 0.4480
+        export_rates:
+          - start_time: 00:00
+            end_time: 24:00
+            price_per_kwh: 0.24
+  - name: Flogas Smart Standard Rate
     pricings:
       - start_date: 2023-01-01
         end_date: null
@@ -259,7 +257,7 @@ providers:
         export_rates:
           - start_time: 00:00
             end_time: 24:00
-            price_per_kwh: 0.22
+            price_per_kwh: 0
   - name: Flogas Fixed Smart Electricity One-Year Fixed
     pricings:
       - start_date: 2023-01-01
@@ -268,20 +266,20 @@ providers:
         import_rates:
           - start_time: 08:00
             end_time: 17:00
-            price_per_kwh: 0.3565
+            price_per_kwh: 0.3228
           - start_time: 19:00
             end_time: 23:00
-            price_per_kwh: 0.4218
+            price_per_kwh: 0.3228
           - start_time: 17:00
             end_time: 19:00
-            price_per_kwh: 0.3565
+            price_per_kwh: 0.3818
           - start_time: 23:00
             end_time: 08:00
-            price_per_kwh: 0.2779
+            price_per_kwh: 0.2516
         export_rates:
           - start_time: 00:00
             end_time: 24:00
-            price_per_kwh: 0.22
+            price_per_kwh: 0.20
   - name: Energia Smart Drive
     pricings:
       - start_date: 2023-01-01
@@ -311,41 +309,25 @@ providers:
           - start_time: 00:00
             end_time: 24:00
             price_per_kwh: 0.24
-  - name: Electric Ireland Home Electric+ 24hour
+  - name: Energia Smart Data
     pricings:
       - start_date: 2023-01-01
         end_date: null
-        standing_charge: 272.61
-        import_rates:
-          - start_time: 00:00
-            end_time: 24:00
-            price_per_kwh: 0.3680
-        export_rates:
-          - start_time: 00:00
-            end_time: 24:00
-            price_per_kwh: 0.21
-        source: https://www.electricireland.ie/switch/new-customer/price-plans?priceType=E
-  - name: Electric Ireland Home Electric+ SST
-    pricings:
-      - start_date: 2023-01-01
-        end_date: null
-        standing_charge: 272.61
+        standing_charge: 236.62
         import_rates:
           - start_time: 08:00
             end_time: 17:00
-            price_per_kwh: 0.4005
-          - start_time: 19:00
-            end_time: 23:00
-            price_per_kwh: 0.4005
+            price_per_kwh: 0.366
           - start_time: 17:00
             end_time: 19:00
-            price_per_kwh: 0.4272
+            price_per_kwh: 0.3836
+          - start_time: 19:00
+            end_time: 23:00
+            price_per_kwh: 0.366
           - start_time: 23:00
             end_time: 08:00
-            price_per_kwh: 0.2104
+            price_per_kwh: 0.1960
         export_rates:
           - start_time: 00:00
             end_time: 24:00
-            price_per_kwh: 0.21
-        source: https://www.electricireland.ie/switch/new-customer/price-plans?priceType=E
-
+            price_per_kwh: 0.24
