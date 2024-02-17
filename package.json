@@ -1,6 +1,6 @@
 {
     "name": "emerald-estimator",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "A library for estimating bills from smart meter data in Ireland.",
     "main": "dist/EmeraldEstimator.bundle.js",
     "scripts": {
