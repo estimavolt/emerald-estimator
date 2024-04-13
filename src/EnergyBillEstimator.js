@@ -40,11 +40,11 @@ class EnergyBillEstimator {
         // Split data into imports and exports
         this.importData = results.data
             .filter(row => row['Read Type'] === 'Active Import Interval (kW)')
-            .map(row => [row['Read Date and End Time'], parseFloat(row['Read Value'])]);
+            .map(row => [ESBDateUtils.cleanupDataFormat(row['Read Date and End Time']), parseFloat(row['Read Value'])]);
 
         this.exportData = results.data
             .filter(row => row['Read Type'] === 'Active Export Interval (kW)')
-            .map(row => [row['Read Date and End Time'], parseFloat(row['Read Value'])]);
+            .map(row => [ESBDateUtils.cleanupDataFormat(row['Read Date and End Time']), parseFloat(row['Read Value'])]);
         
         return this;
     }

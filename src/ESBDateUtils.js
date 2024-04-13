@@ -49,11 +49,41 @@ class ESBDateUtils {
      * @returns {Date} A Date object representing the parsed date and time.
      */
     static parseDate(dateString) {
-        const [date, time] = dateString.split(' ');
-        const [dd, mm, yyyy] = date.split('-').map(Number);
-        const [hours, minutes] = time.split(':').map(Number);
+        let date, time;
+        if (dateString.includes('-')) {
+            // Handle "DD-MM-YYYY HH:mm" format
+            [date, time] = dateString.split(' ');
+            const [dd, mm, yyyy] = date.split('-').map(Number);
+            const [hours, minutes] = time.split(':').map(Number);
+            return new Date(yyyy, mm - 1, dd, hours, minutes);
+        } else if (dateString.includes('/')) {
+            // Handle "DD/MM/YYYY HH:mm" format
+            [date, time] = dateString.split(' ');
+            const [dd, mm, yyyy] = date.split('/').map(Number);
+            const [hours, minutes] = time.split(':').map(Number);
+            return new Date(yyyy, mm - 1, dd, hours, minutes);
+        } else {
+            throw new Error('Date string format is not recognized');
+        }
+    }
 
-        return new Date(yyyy, mm - 1, dd, hours, minutes);
+    /**
+     * Converts a date string from "DD/MM/YYYY HH:mm" format to "DD-MM-YYYY HH:mm" format if necessary.
+     * If the input string is already in "DD-MM-YYYY HH:mm" format, it returns the input as is.
+     * 
+     * @param {string} dateString - The date string which might be in "DD/MM/YYYY HH:mm" or "DD-MM-YYYY HH:mm" format.
+     * @returns {string} A date string in "DD-MM-YYYY HH:mm" format or the original format if no conversion is needed.
+     */
+    static cleanupDataFormat(dateString) {
+        // Check if the input is already in "DD-MM-YYYY HH:mm" format
+        if (dateString.includes('-')) {
+            return dateString; // Return as is because it's already in the correct format
+        }
+
+        // Convert "DD/MM/YYYY HH:mm" to "DD-MM-YYYY HH:mm"
+        const [datePart, timePart] = dateString.split(' ');
+        const formattedDatePart = datePart.replace(/\//g, '-');
+        return `${formattedDatePart} ${timePart}`;
     }
 
 }

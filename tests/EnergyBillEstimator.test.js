@@ -22,7 +22,11 @@ describe('EnergyBillEstimator', () => {
                 continue; // Skip this iteration
             }
 
-            const formattedDate = currentDate.format("DD-MM-YYYY HH:mm");
+
+            // Alternate date format as observed in some ESB datasets
+            const formattedDate = i % 2 === 0 ? 
+                          currentDate.format("DD-MM-YYYY HH:mm"):
+                          currentDate.format("DD/MM/YYYY HH:mm");
 
             // Vary consumption based on time
             if (varyConsumption) {
