@@ -11,22 +11,54 @@ class EnergyBillEstimator {
     /**
     * Constructs an instance of the EnergyBillEstimator class.
     * @param {string} providerDataContent - YAML content containing energy pricing information from providers. Defaults to a preloaded dataset.
+    * @param {Object} [options]
+    * @param {Date} [options.asOf=new Date()] - Date used to select which pricing period applies to each provider.
     */
-    constructor(providerDataContent = providerDataDefault) {
+    constructor(providerDataContent = providerDataDefault, { asOf = new Date() } = {}) {
         const parsedData = yaml.load(providerDataContent);
 
-        this.pricingData = this.loadPricingData(parsedData.providers);
-        this.standingCharges = this.loadStandingCharges(parsedData.providers);
+        this.asOf = asOf;
+        const providers = this.selectActivePricings(parsedData.providers, asOf);
+        this.pricingData = this.loadPricingData(providers);
+        this.standingCharges = this.loadStandingCharges(providers);
         this.consumptionData = null;
     }
 
     /**
      * Factory method to create a new instance of EnergyBillEstimator.
      * @param {string} providerDataContent - YAML content for provider data.
+     * @param {Object} [options] - See constructor.
      * @returns {EnergyBillEstimator} An instance of the EnergyBillEstimator.
      */
-    static create(providerDataContent) {
-        return new EnergyBillEstimator(providerDataContent);
+    static create(providerDataContent, options) {
+        return new EnergyBillEstimator(providerDataContent, options);
+    }
+
+    /**
+     * For each provider, keeps only the pricing period in effect on the given date.
+     * A period applies when start_date <= asOf <= end_date (null bounds are open).
+     * When several periods apply, the one with the latest start_date wins.
+     * Providers with no period in effect (e.g. withdrawn plans) are dropped.
+     * @param {Array} providers - Array of provider data.
+     * @param {Date} asOf - The date to select pricing for.
+     * @returns {Array} Providers, each with a single-entry `pricings` array.
+     */
+    selectActivePricings(providers, asOf) {
+        // js-yaml parses YAML dates as UTC midnight
+        const toDay = date => date == null ? null : (date instanceof Date ? date.toISOString().slice(0, 10) : String(date));
+        const day = ESBDateUtils.toISODay(asOf);
+
+        return providers.flatMap(provider => {
+            const active = provider.pricings
+                .filter(p => (toDay(p.start_date) || '') <= day && (toDay(p.end_date) === null || day <= toDay(p.end_date)))
+                .sort((a, b) => (toDay(b.start_date) || '').localeCompare(toDay(a.start_date) || ''));
+
+            if (active.length === 0) {
+                console.log(`No pricing in effect for ${provider.name} on ${day}, skipping.`);
+                return [];
+            }
+            return [{ ...provider, name: provider.name.trim(), pricings: [active[0]] }];
+        });
     }
 
     /**

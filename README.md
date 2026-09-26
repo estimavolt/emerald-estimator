@@ -22,7 +22,7 @@ For Node.js environments:
 npm install emerald-estimator
 ```
 
-Prerequesites: Node.js version 18 or higher.
+Prerequisites: Node.js version 20 or higher.
 
 ### Installing in browser environments
 
@@ -50,9 +50,23 @@ In the browser, you don't need to import the module as it's included globally vi
 
 ```html
 <script>
-    const estimator = EmeraldEstimator.create();
+    const estimator = EmeraldEstimator.EnergyBillEstimator.create();
 </script>
 ```
+
+### Selecting the pricing date
+
+Each plan in `data/provider_pricing.yaml` can hold several pricing periods, each with a `start_date` and `end_date` (`null` means open-ended). By default the estimator uses the prices in effect today. Pass `asOf` to estimate with the prices in effect on another date:
+
+```javascript
+const estimator = EnergyBillEstimator.create(undefined, { asOf: new Date('2026-10-12') });
+```
+
+Plans with no pricing in effect on that date are left out of the estimate.
+
+### Updating prices
+
+When a supplier changes its prices, don't overwrite the existing entry. Set its `end_date` to the day before the change, and add a new pricing period with the new rates starting on the change date. The estimator switches over automatically on that date. All prices include VAT: `standing_charge` is in €/year (urban), and `price_per_kwh` is in €/kWh. `npm test` checks that every plan's rates cover each half hour of the day exactly once.
 
 ### Loading Consumption Data
 

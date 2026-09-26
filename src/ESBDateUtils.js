@@ -41,6 +41,18 @@ class ESBDateUtils {
     }
 
     /**
+     * Formats a Date object as "YYYY-MM-DD" in local time, so days can be compared as strings.
+     *
+     * @param {Date} date - The Date object to format.
+     * @returns {string} The calendar day as "YYYY-MM-DD".
+     */
+    static toISODay(date) {
+        const month = `0${date.getMonth() + 1}`.slice(-2);
+        const day = `0${date.getDate()}`.slice(-2);
+        return `${date.getFullYear()}-${month}-${day}`;
+    }
+
+    /**
      * Parses a date string of the format "DD-MM-YYYY HH:MM" into a Date object.
      * This method offers a quicker alternative to Moment.js parsing,
      * which is beneficial for handling large volumes of date data.

@@ -73,7 +73,7 @@ providers:
             end_time: 24:00
             price_per_kwh: 0.21
         source: https://www.electricireland.ie/switch/new-customer/price-plans?priceType=E
-  - name: Bord Gáis Energy Electric Vehicle 
+  - name: Bord Gáis Energy Electric Vehicle
     pricings:
       - start_date: 2023-01-01
         end_date: null
@@ -101,7 +101,7 @@ providers:
           - start_time: 00:00
             end_time: 24:00
             price_per_kwh: 0.185 
-  - name: Bord Gáis Green EV Smart Electricity 
+  - name: Bord Gáis Green EV Smart Electricity
     pricings:
       - start_date: 2023-01-01
         end_date: null
@@ -164,7 +164,7 @@ providers:
           - start_time: 00:00
             end_time: 24:00
             price_per_kwh: 0.1589
-  - name: Yuno Energy Standard Smart 
+  - name: Yuno Energy Standard Smart
     pricings:
       - start_date: 2023-01-01
         end_date: null
@@ -296,7 +296,7 @@ providers:
           - start_time: 00:00
             end_time: 24:00
             price_per_kwh: 0.24
-  - name: Energia 24-Hour 
+  - name: Energia 24-Hour
     pricings:
       - start_date: 2023-01-01
         end_date: null
