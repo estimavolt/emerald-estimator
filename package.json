@@ -4,7 +4,7 @@
     "description": "A library for estimating bills from smart meter data in Ireland.",
     "main": "dist/EmeraldEstimator.bundle.js",
     "scripts": {
-        "build": "NODE_OPTIONS=--openssl-legacy-provider webpack",
+        "build": "webpack",
         "test": "jest",
         "clear-jest-cache": "jest --clearCache",
         "test:profile": "node --inspect-brk ./node_modules/.bin/jest --runInBand"
