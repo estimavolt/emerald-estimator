@@ -255,3 +255,106 @@ providers:
             end_time: 24:00
             price_per_kwh: 0.185
         source: https://www.bordgaisenergy.ie/home/our-tariffs
+  - name: Flogas Smart Electricity 29%
+    pricings:
+      - start_date: 2026-07-20
+        end_date: null
+        standing_charge: 300.20
+        import_rates:
+          - start_time: 08:00
+            end_time: 17:00
+            price_per_kwh: 0.3194
+          - start_time: 17:00
+            end_time: 19:00
+            price_per_kwh: 0.3779
+          - start_time: 19:00
+            end_time: 23:00
+            price_per_kwh: 0.3194
+          - start_time: 23:00
+            end_time: 08:00
+            price_per_kwh: 0.2305
+        export_rates:
+          - start_time: 00:00
+            end_time: 24:00
+            price_per_kwh: 0.185
+        source: https://www.flogas.ie/price-plans/electricity
+  - name: Flogas Smart 24Hr Electricity 29%
+    pricings:
+      - start_date: 2026-07-20
+        end_date: null
+        standing_charge: 300.20
+        import_rates:
+          - start_time: 00:00
+            end_time: 24:00
+            price_per_kwh: 0.2931
+        export_rates:
+          - start_time: 00:00
+            end_time: 24:00
+            price_per_kwh: 0.185
+        source: https://www.flogas.ie/price-plans/electricity
+  - name: Flogas Smart EV Night Charge 29%
+    pricings:
+      - start_date: 2026-07-20
+        end_date: null
+        standing_charge: 387.16
+        import_rates:
+          - start_time: 08:00
+            end_time: 17:00
+            price_per_kwh: 0.3176
+          - start_time: 17:00
+            end_time: 19:00
+            price_per_kwh: 0.4095
+          - start_time: 19:00
+            end_time: 23:00
+            price_per_kwh: 0.3176
+          - start_time: 23:00
+            end_time: 02:00
+            price_per_kwh: 0.2466
+          - start_time: 02:00
+            end_time: 05:00
+            price_per_kwh: 0.0996
+          - start_time: 05:00
+            end_time: 08:00
+            price_per_kwh: 0.2466
+        export_rates:
+          - start_time: 00:00
+            end_time: 24:00
+            price_per_kwh: 0.185
+        source: https://www.flogas.ie/price-plans/electricity
+  - name: Yuno Energy Electricity Smart
+    pricings:
+      - start_date: 2026-09-14
+        end_date: null
+        standing_charge: 235.77
+        import_rates:
+          - start_time: 08:00
+            end_time: 17:00
+            price_per_kwh: 0.3756
+          - start_time: 17:00
+            end_time: 19:00
+            price_per_kwh: 0.4076
+          - start_time: 19:00
+            end_time: 23:00
+            price_per_kwh: 0.3756
+          - start_time: 23:00
+            end_time: 08:00
+            price_per_kwh: 0.2298
+        export_rates:
+          - start_time: 00:00
+            end_time: 24:00
+            price_per_kwh: 0.1716
+        source: https://yunoenergy.ie/price-plans
+  - name: Yuno Energy Electricity 24Hr
+    pricings:
+      - start_date: 2026-09-14
+        end_date: null
+        standing_charge: 219.22
+        import_rates:
+          - start_time: 00:00
+            end_time: 24:00
+            price_per_kwh: 0.3485
+        export_rates:
+          - start_time: 00:00
+            end_time: 24:00
+            price_per_kwh: 0.1716
+        source: https://yunoenergy.ie/price-plans
